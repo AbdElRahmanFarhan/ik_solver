@@ -1,0 +1,19 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ik_solver
+    container_name: ik_solver
+    network_mode: "host" 
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - XDG_RUNTIME_DIR=/tmp/.X11-unix
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /home/abdelrahman/workspace/ik_solver/robot_description:/home/workspace/ros2_ws/src/robot_description
+      - /home/abdelrahman/workspace/ik_solver/robot-urdfs:/home/workspace/robot-urdfs
+      - /home/abdelrahman/workspace/ik_solver/ik_solver:/home/workspace/ik_solver
+    entrypoint: ["/bin/bash"]
+    tty: true
+    stdin_open: true
