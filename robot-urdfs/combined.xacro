@@ -1,15 +1,14 @@
 <?xml version="1.0"?>
 <robot name="my_combined_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find robot_description)/urdf/abb_irb6700_150_320.urdf" />
-
   <xacro:include filename="$(find robot_description)/urdf/linear_axis.urdf" />
 
-
-  <joint name="linear_robot" type="fixed">
+  <joint name="gantry_robot" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="linear_flange"/>
     <child link="base_link"/>
   </joint>
+
+  <xacro:include filename="$(find robot_description)/urdf/abb_irb6700_150_320.urdf" />
 
 </robot>
