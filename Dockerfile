@@ -21,6 +21,9 @@ RUN git clone https://github.com/ros/urdf_parser_py.git
 WORKDIR /home/workspace/urdf_parser_py
 RUN python3 setup.py install
 
+WORKDIR /home/workspace
+COPY ./ik_solver /home/workspace/ik_solver
+
 WORKDIR /home/workspace/ros2_ws
 COPY ./robot_description /home/workspace/ros2_ws/src/robot_description
 RUN colcon build
@@ -29,4 +32,3 @@ RUN echo "source /home/workspace/ros2_ws/install/setup.bash" >> ~/.bashrc
 WORKDIR /home/workspace
 
 CMD [ "/bin/bash" ]
-    
