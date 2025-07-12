@@ -108,7 +108,6 @@ class IKSolver:
 
         thetas = [theta1, theta2, theta3, theta4, theta5, theta6, theta7]
 
-
         return thetas
 
 
@@ -137,8 +136,6 @@ def main():
 
         trials.append(np.allclose(pose, pose_solution, atol=1e-3))
     print(f"{sum(trials)} out of {len(trials)} succeeded")
-
-
 
 
 if __name__ == '__main__':
