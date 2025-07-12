@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 
 RUN python3 -m pip install --no-cache-dir --upgrade pip
-RUN pip install sympy
+RUN pip install sympy scipy
 
 WORKDIR /home
 RUN mkdir -p workspace/ros2_ws/src

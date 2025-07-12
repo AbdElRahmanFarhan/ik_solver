@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ik_solver
-    container_name: ik_solver
+    image: iksolver
+    container_name: iksolver
     network_mode: "host" 
     environment:
       - DISPLAY=${DISPLAY:-:0}

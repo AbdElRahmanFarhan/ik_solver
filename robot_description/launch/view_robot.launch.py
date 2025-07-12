@@ -7,7 +7,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     package_share_directory = get_package_share_directory('robot_description')
     
-    urdf_file = os.path.join(package_share_directory, 'urdf', 'combined.urdf')
+    urdf_file = os.path.join(package_share_directory, 'urdf', 'abb_irb6700_150_320.urdf')
     with open(urdf_file, 'r') as infp:
         robot_desc = infp.read()
 
