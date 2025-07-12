@@ -6,35 +6,29 @@ from scipy.optimize import minimize
 
 
 def get_tf_from_dh(alpha, a, d, q):
-    tf = np.array([[             np.cos(q),            -np.sin(q),            0,         a],
-                [ np.sin(q)*np.cos(alpha), np.cos(q)*np.cos(alpha), -np.sin(alpha), -np.sin(alpha)*d],
-                [ np.sin(q)*np.sin(alpha), np.cos(q)*np.sin(alpha),  np.cos(alpha),  np.cos(alpha)*d],
-                [                   0,                   0,            0,        1]])
+    tf = np.array([[np.cos(q),            -np.sin(q),            0,         a],
+                   [np.sin(q)*np.cos(alpha), np.cos(q) *
+                    np.cos(alpha), -np.sin(alpha), -np.sin(alpha)*d],
+                   [np.sin(q)*np.sin(alpha), np.cos(q)*np.sin(alpha),
+                    np.cos(alpha),  np.cos(alpha)*d],
+                   [0,                   0,            0,        1]])
     return tf
 
-def get_tf_fixed_joint(joint: urdf.Joint):
-    rpy = joint.origin.rpy
-    rot_matrix = R.from_euler("xyz", rpy).as_matrix()
-    TF = np.zeros(4, 4)
-    TF[:3, :3] = rot_matrix
-    TF[:3, 3] = joint.origin.xyz
-    TF[-1, -1] = 1
-    return TF
 
-def solve_for_delta_linear(x, y, limits, robot_reach, theta_init):
-    objective = lambda vars: (vars[0] - theta_init)**2 
-    constraint_eq = lambda vars: vars[0] - np.sqrt(vars[1]**2 - x**2 - y**2)
-    constraint_ineq_real = lambda vars: vars[1]**2 - x**2 - y**2
+def solve_for_delta_linear(x, y, z_limits, r_limits, z_init):
+    def objective(vars): return (vars[0] - z_init)**2
+    def constraint_eq(vars): return vars[0] - np.sqrt(vars[1]**2 - x**2 - y**2)
+    def constraint_ineq_real(vars): return vars[1]**2 - x**2 - y**2
 
-    bounds = [limits, robot_reach]
-    z_r_init = [theta_init, np.mean(robot_reach)]
+    bounds = [z_limits, r_limits]
+    z_r_init = [z_init, np.mean(r_limits)]
     constraints = [
         {'type': 'eq',  'fun': constraint_eq},
         {'type': 'ineq', 'fun': constraint_ineq_real},  # realness
     ]
 
     result = minimize(objective, z_r_init, method='SLSQP',
-                    bounds=bounds, constraints=constraints)
-    
+                      bounds=bounds, constraints=constraints)
+
     z_sol, _ = result.x
     return z_sol
